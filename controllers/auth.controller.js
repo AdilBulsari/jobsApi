@@ -6,9 +6,7 @@ exports.register = async (req, res) => {
     ...req.body,
   });
 
-  console.log(user);
-
-  res.status(StatusCodes.CREATED).json(user);
+  res.status(StatusCodes.CREATED).json({ user });
 };
 
 exports.login = async (req, res) => {
