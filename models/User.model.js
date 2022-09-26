@@ -31,21 +31,22 @@ UserSchema.pre("save", async function (next) {
   next();
 });
 
-// UserSchema.methods.getName = function () {
-//   return this.name;
-// };
-
 UserSchema.methods.createJWT = function () {
   return jwt.sign(
     {
       userId: this._id,
       name: this.name,
     },
-    "jwtSecret",
+    process.env.JWT_SECRET,
     {
-      expiresIn: "30d",
+      expiresIn: process.env.JWT_LIFETIME,
     }
   );
+};
+
+UserSchema.methods.checkPassword = async function (password) {
+  const isMatched = await bcrypt.compare(password, this.password);
+  return isMatched;
 };
 
 module.exports = mongoose.model("author", UserSchema);
