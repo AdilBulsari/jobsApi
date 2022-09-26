@@ -6,7 +6,7 @@ exports.getAllJob = async (req, res) => {
 };
 
 exports.createJob = async (req, res) => {
-  res.send("Create jobs ");
+  res.json(req.user);
 };
 
 exports.updateJob = async (req, res) => {
