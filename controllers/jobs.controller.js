@@ -1,12 +1,20 @@
-exports.getJob = async (req, res) => {
-  res.send("get job ");
-};
+const Job = require("../models/Job.model");
+const { StatusCodes } = require("http-status-codes");
+const { BadRequestError, NotFoundError } = require("../errors/");
+
+exports.getJob = async (req, res) => {};
+
 exports.getAllJob = async (req, res) => {
-  res.send("get all jobs ");
+  console.log(req.user);
+  const jobs = await Job.find({ createdBy: req.user.userId }).sort("createdAt");
+
+  res.status(StatusCodes.OK).json({ jobs, count: jobs.length });
 };
 
 exports.createJob = async (req, res) => {
-  res.json(req.user);
+  req.body.createdBy = req.user.userId;
+  const job = await Job.create(req.body);
+  res.status(StatusCodes.CREATED).json({ job });
 };
 
 exports.updateJob = async (req, res) => {
