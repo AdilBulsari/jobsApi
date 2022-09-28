@@ -24,6 +24,7 @@ const limiter = rateLimit({
 });
 const helmet = require("helmet");
 app.use(limiter);
+app.set("trust proxy", 1);
 app.use(express.json());
 // extra packages
 app.use(helmet());
@@ -35,7 +36,6 @@ app.use("/api/v1/jobs", jobsAuth, jobsRouter);
 
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
-app.set("trust proxy", 1);
 
 // Apply the rate limiting middleware to all requests
 
