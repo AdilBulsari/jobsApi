@@ -10,9 +10,6 @@ exports.getJob = async (req, res) => {
 
   const job = await Job.findOne({ _id: jobId, createdBy: userId });
 
-  console.log(userId, "<<< User ID");
-  console.log(jobId, "<<< Job ID");
-
   if (!job) {
     throw new NotFoundError(`No job with id ${jobId}`);
   }
@@ -61,12 +58,7 @@ exports.deleteJob = async (req, res) => {
     params: { id: jobId },
   } = req;
 
-  const job = await Job.findByIdAndRemove(
-    { _id: jobId, createdBy: userId },
-    { new: true, runValidators: true }
-  );
-
-  console.log(job);
+  const job = await Job.findByIdAndRemove({ _id: jobId, createdBy: userId });
 
   if (job) {
     res.status(StatusCodes.OK).send();
